@@ -75,7 +75,7 @@ I have conducted several experiments with a slightly altered measure_thermal_beh
 
 In the included chart, you can see how the mesh min-max range ("bowl-iness") increases with temperature of all sensors. For the first 60 minutes, the bed is heated up to 105 °C. Then the bed heater is turned off for 30 minutes, then turned back on for 30 minutes, and finally turned off again for another 30 minutes. Note that the bed mesh range tends to increase slightly *just* as the bed heater is turned off and the bed starts cooling down - there is a significant hysteresis effect in play here, the cause of which is unknown to me yet.
 
-I have taken the bed mesh at T=0 minutes, i.e. at ambient thermal equilibrium, and the bed mesh at T=60 minutes, i.e. as the printer was at its hottest point. Between these two meshes, I have calculated the aforementioned point-wise linear coefficients and extrapolated a bed mesh for every temperature measured in the course of he experiment. That means I can compare the extrapolated meshes with real, measured meshes. The absolute error in the form of a heatmap is in the next chart:
+I have taken the bed mesh at T=0 minutes, i.e. heatsoaked bed, but cold printer, and the bed mesh at T=60 minutes, i.e. as the printer was at its hottest point. Between these two meshes, I have calculated the aforementioned point-wise linear coefficients and extrapolated a bed mesh for every temperature measured in the course of he experiment. That means I can compare the extrapolated meshes with real, measured meshes. The absolute error in the form of a heatmap is in the next chart:
 
 ![AbsError_heating](https://user-images.githubusercontent.com/61467766/132134771-08b263a5-b823-48ae-8e5d-b46cf62c59ba.png)
 
