@@ -33,7 +33,7 @@ A selection of gcode_macros for klipper (and a supporting script) that is a real
 ## How does it work?
 
 ### In theory
-GBC works by taking a "regular" bed mesh that works for you the best, finding its min-max range, and comparing any freshly taken bed mesh to that. Negative of the difference of min-max ranges is the new global Z offset adjustment. VGB uses the same principle, but the "freshly taken bed meshes" have to be available for any temperature of the printer during a print. Since the bimetallic bowing effect is linear, we can take two bed meshes at different temperatures and calculate a linear coefficient for each point of the mesh. With these coefficients and a base mesh, we can extrapoalte and apply a mesh for *any* printer temperature at *any* time.
+GBC works by taking a "regular" bed mesh that works for you the best, finding its min-max range, and comparing any freshly taken bed mesh to that. Negative of the difference of min-max ranges is the new global Z offset adjustment. VGB uses the same principle, but the "freshly taken bed meshes" have to be available for any temperature of the printer during a print. Since the bimetallic bowing effect is linear with temperature, we can take two bed meshes at different temperatures and calculate a linear coefficient for each point of the mesh. With these coefficients and a base mesh, we can extrapolate and apply a mesh for *any* printer temperature at *any* time.
 
 #### Hang on - this works?
 Yes! Scroll all the way to the bottom for more info.
