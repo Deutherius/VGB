@@ -2,13 +2,14 @@
 VGB - Virtual Gantry Backers. A set of gcode_macro-based functions that counteract the effects of bimetallic expansion of aluminium profile + steel rail gantry in real time
 
 # Thermal WHAT?
-Read about thermal expansion in my older repo ![here](https://github.com/Deutherius/DFC-GBC). In short - metal expands with heat, different metals expand different amounts. Coupled metals expanding differently start bowing.
+Read about thermal expansion in ![whoppingpochard's amaying repo](https://github.com/tanaes/whopping_Voron_mods/tree/main/extrusion_backers). In short - metal expands with heat, different metals expand different amounts. Coupled metals expanding differently start bowing (exactly like the bimetallic strip in your electric kettle or clothes iron).
 
-On a Voron V2.4 (mine is 300 mm spec), this manifests as a deeper "bowl" or "taco" shape when you take a bed mesh while the printer is hot, compared to the same printer when cold.
+On a Voron 2.4 (mine is 300 mm spec), this manifests as a deeper "bowl" or "taco" shape when you take a bed mesh while the printer is hot, compared to the same printer when cold.
 
-TODO:INSERT IMAGE OF TACO BOWL
+![hot_mesh](https://user-images.githubusercontent.com/61467766/133098592-8903d003-e97f-465b-8e1f-5cab74fb9ad1.JPG)
+![cold_mesh](https://user-images.githubusercontent.com/61467766/133098588-81abefcd-0faf-4dbf-8c21-299abb6d7d9c.JPG)
 
-The bed might have some small part in this, but it is an 8 mm thick slab of aluminium - it's not gonna bend *that* much. Proving that is easy - here are my bed meshes from one of my measure_thermal_behavior.py (get yours ![here!](https://github.com/alchemyEngine/measure_thermal_behavior) - or look for a newer one, if available) runs:
+The bed might have some small part in this, but it is an 8 mm thick slab of aluminium - it's not gonna bend *that* much. Proving that is easy - here are bed meshes from one of my measure_thermal_behavior.py (get yours ![here!](https://github.com/alchemyEngine/measure_thermal_behavior) - or look for a newer one, if available) runs:
 
 ![thermal_quant_Deutherius#3295_2021-08-19_17-20-40 bed_diffmesh](https://user-images.githubusercontent.com/61467766/132133141-80db3704-913d-45c6-a7b7-08e79088ffff.png)
 
@@ -16,24 +17,28 @@ That's the difference between a bed mesh taken at ambient temps vs. bed mesh tak
 
 ![thermal_quant_Deutherius#3295_2021-08-19_17-20-40 mesh](https://user-images.githubusercontent.com/61467766/132133401-0146f0c2-24bf-4a71-8ced-9f5b64d2cccd.png)
 
-That is after 1 hour of heating. During regular use, the mesh gets even worse. This is caused by the bimetallic expansion of the gantry - the bed mesh is measuring relative distance of the hotend from the bed. This can be counteracted in two parts - one is the bed mesh itself, the other is a global Z offset. My previous code (GBC - gantry bowing compensation) compensated for the global Z offset between prints - this works great (every print has the same first layer Z offset regardless of printer temperature), but only accounts for this effect *once*, while the gantry keeps bowing during the print as it heats up more. This can be "masked" by frame expansion compensation (either the real deal by ![alch3my](https://github.com/alchemyEngine/klipper/tree/work-frame-expansion-20210410), or my "dumb" gcode_macro version, DFC, linked at the start) - but you can notice that the edges of your bed have just a little bit more squish as the print progresses and the printer heats up:
+That is after 1 hour of heating. During regular use, the mesh gets even worse. This is caused by the bimetallic expansion of the gantry - the bed mesh is measuring relative distances of the toolhead from the bed.
 
-![20210829_193641_arrow](https://user-images.githubusercontent.com/61467766/132133664-7a191730-e618-4a39-9cad-0ae62453b679.jpg)
+### Doesn't the bed mesh itself solve this issue?
 
-Left side of the print was in the middle of the bed, while the right side was at the top right corner. Red arrow indicates overall print direction of the infill. In the top right corner, you can see the standard "valleys" forming that indicate that the toolhead is just a *little bit too close* to the bed. 
+Yes, but only when the conditions are static. If you heatsoak your machine to the point of thermal equilibrium, bed mesh basically solves this issue. Problem is, on larger machines, reachign thermal equilibrium can take *hours*. Ain't nobody got time for that.
+But if you don't heatsoak for long enough, the bed mesh that you take just before a print gets out of date *fast*.
 
 # The solution
-You can quite easily (and stylishly!) solve the gantry bowing effect by getting a set of ![gantry backers](https://github.com/tanaes/whopping_Voron_mods/tree/main/extrusion_backers) for each affected extrusion. Then you will only have to account for the remaining thermal expansion of the entire frame in the Z direction with Frame Comp. If you do not, or can not, get a set of gantry backers, the code you will find here might hopefully provide an interesting alternative.
+You can quite easily (and stylishly!) alleviate the gantry bowing effect by getting a set of ![gantry backers](https://github.com/tanaes/whopping_Voron_mods/tree/main/extrusion_backers) for each affected extrusion. Two problems with this solution:
+1) It only solves the issue completely on small footprint machines (think max 250 mm^2), on larger machines the issue is only lessened, and
+2) It can be quite gucci ($$), especially if you go for the titanium version ($$$$$$).
+
+### So are we screwed?
+
+Nope! As stated before, you can correct for gantry bowing with the use of a bed mesh. Can't use a static one, but if you had a *dynamic bed mesh*...
 
 # VGB - Virtual Gantry Backers
-
-## What is it?
-A selection of gcode_macros for klipper (and a supporting script) that is a real-time expansion of my previous code, GBC.
 
 ## How does it work?
 
 ### In theory
-GBC works by taking a "regular" bed mesh that works for you the best, finding its min-max range, and comparing any freshly taken bed mesh to that. Negative of the difference of min-max ranges is the new global Z offset adjustment. VGB uses the same principle, but the "freshly taken bed meshes" have to be available for any temperature of the printer during a print. Since the bimetallic bowing effect is linear with temperature, we can take two bed meshes at different temperatures and calculate a linear coefficient for each point of the mesh. With these coefficients and a base mesh, we can extrapolate and apply a mesh for *any* printer temperature at *any* time.
+Since the bimetallic bowing effect is linear, it is possible to take two bed meshes at different temperatures and calculate a linear thermal expansion coefficient for each point of the mesh (similar to ![frame comp](https://github.com/alchemyEngine/klipper/tree/work-frame-expansion-20210410)/![dumb frame comp](https://github.com/Deutherius/DFC/blob/main/README.md)). With these coefficients and a base mesh, it is possible to extrapolate and apply a mesh for *any* printer temperature at *any* time.
 
 #### Hang on - this works?
 Yes! Scroll all the way to the bottom for more info.
@@ -41,30 +46,31 @@ Yes! Scroll all the way to the bottom for more info.
 ### In practice
 Ideally, the bed mesh data that klipper currently uses could be altered on the fly from a gcode_macro. In reality, this data (and indeed *any* part of the `printer` variable) *cannot* be altered in this way. What we can do, however, is load meshes on the fly if they were previously saved in the config. That means that if we have a selection of bed meshes to choose from, say for every 0.1 °C of the thermistor we want to use for the compensation, we can get roughly the same functionality. Yes, that is *a lot* of bed meshes.
 
-## How to "install"
+![meshes](https://user-images.githubusercontent.com/61467766/133106401-00e3681f-e2ff-4f52-ad80-2a0b5eb251d3.JPG)
+
+## How to set things up
 You need 4 things:
 1) A thermistor that measures the printer's temperature. Needs to be reasonably stable (i.e. no chamber thermistor in the Z chain that gets hot air blown at it *sometimes*) - frame thermistor in one of the vertical extrusions in your frame is perfect for this. (A thermistor measuring the X or Y extrusion temp is even better, but harder to install AND has a much wider range of expected temperatures, which increases the amount of bed meshes you need to generate)
-2) As in GBC, a bed mesh that is the most regular for you and that your position_endstop is calibrated to. Name that mesh "REGULAR".
-3) A mesh taken when the printer is cold, ideally at ambient temperature, and the temperature it was taken at (from the thermistor you intend to use, see point 1). Name that one "COLDx.x", where "x.x" is the temp, e.g. "COLD27.3".
-4) A mesh taken when the printer is *hot*. Ideally finish a long print (2+ hours), take the print out, let the printer heat up again for at least 10 minutes, then take the mesh. Name that one "HOTx.x", e.g. "HOT36.6".
+2) A mesh taken when the printer is cold, either after a short heatsoak (~10 minutes) or at ambient temperature, and the temperature it was taken at (measured at the thermistor you intend to use, see point 1). Name that one "COLDx.x", where "x.x" is the temp, e.g. "COLD27.3".
+3) A mesh taken when the printer is *hot*. Ideally finish a long print (2+ hours), take the print out, let the printer heat up again for at least 10 minutes, then take the mesh. Name that one "HOTx.x", e.g. "HOT36.6".
+4) Additionally, you might want to take a mesh at a different temperature for testing purposes. This should be taken while the printer is heating up (not cooling down!), and should be named "TESTx.x", e.g. "TEST31.2". This step is not necessary for VGB to function, it's just for peace of mind.
 
-After you have satisfied all the above points, doublecheck that the meshes are in fact stored in the printer.cfg "DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated." section. We are going to edit that section - but don't worry, the contents will still be auto-generated, so it should be fine :). Included in this repo is a python script that will generate the new meshes for you, called `generate_VGB_meshes.py`. Download your printer.cfg (make a backup!), put it in the same folder as the script and call 
+After you have satisfied the above points, doublecheck that the meshes are in fact stored in the printer.cfg "DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated." section. We are going to edit that section - but don't worry, the contents will still be auto-generated, so it should be fine :). Included in this repo is a python script that will generate the new meshes for you, called `generate_VGB_meshes.py`. Download your printer.cfg (make a backup!), put it in the same folder as the script and call 
 
 ```python generate_VGB_meshes.py printer.cfg```
 
 This will create a new printer.cfg (the old one will not be overwritten) chock full of generated meshes with the name "xx.x", e.g. "29.7". You can specify two additional arguments, the step at which the meshes are generated (0.1 °C by default) and extra temperatures to generate above and below the HOT and COLD mesh temps (2 °C by default) - i.e. `python generate_VGB_meshes.py printer.cfg 0.2 7` for step size of 0.2 °C and 7 extra °C.
 
-Then just upload the new pinter.cfg to your printer (rename it to `printer.cfg` of course) and you are done with this part.
+Then just upload the new printer.cfg to your printer (rename it to `printer.cfg` of course) and you are done with this part.
 
 Final step is uploading VGB.cfg next to your printer.cfg and adding `[include VGB.cfg]` anywhere in the printer.cfg file.
 
-You also need to turn on the M73 command generation in your slicer. In PS/SS, this is the "Supports remaining times" option in the printer settings page.
-
-That's it! You can verify that VGB is working with the QUERY_VGB macro. You can also enable or disable the function with "SET_VGB ENABLE=1" or "SET_VGB ENABLE=0".
+That's it! VGB will start loading temperature-based meshes right after Klipper starts, and then every 10 seconds. You can verify that VGB is working with the QUERY_VGB macro (or just look at your current mesh :). You can also enable or disable the function with "SET_VGB ENABLE=1" or "SET_VGB ENABLE=0". If you disable VGB, the last mesh will stay loaded and no further changes will be made. If you then turn VGB back on, the mesh will instantly change, so beware! This could cause a nozzle strike if you are not careful. Ideally, you never want to turn the feature on or off *during* a print.
 
 # The end
 
-Caution, blah blah blah
+That's it! However bendy your gantry gets, this function will compensate for it. The usual warnings apply - be careful, have your hand on the E-stop just in case, watch the printer (at least at first)...
+Additionally, I strongly urge you to change your relative reference index from the center of the bed to one of the corners, which will eliminate most temperature-based global Z offset changes, see ![here](https://github.com/Deutherius/Gantry-bowing-induced-Z-offset-correction-through-relative-reference-index).
 
 
 
