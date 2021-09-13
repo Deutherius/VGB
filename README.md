@@ -61,6 +61,8 @@ After you have satisfied the above points, doublecheck that the meshes are in fa
 
 This will create a new printer.cfg (the old one will not be overwritten) chock full of generated meshes with the name "xx.x", e.g. "29.7". You can specify two additional arguments, the step at which the meshes are generated (0.1 °C by default) and extra temperatures to generate above and below the HOT and COLD mesh temps (2 °C by default) - i.e. `python generate_VGB_meshes.py printer.cfg 0.2 7` for step size of 0.2 °C and 7 extra °C.
 
+If you had a "TEST" bed mesh in your config, you should see an additional output from the script in the console. This output contains a matrix of absolute errors between the extrapolated and TEST meshes, a mean square error over all points and maximum absolute error (i.e. the largest value from the matrix). You should see MSE on the order of 1.5e-5 and a maximum absolute error of roughly 10 microns at most. If you see more than that, something is wrong, contact me.
+
 Then just upload the new printer.cfg to your printer (rename it to `printer.cfg` of course) and you are done with this part.
 
 Final step is uploading VGB.cfg next to your printer.cfg and adding `[include VGB.cfg]` anywhere in the printer.cfg file.
