@@ -21,7 +21,7 @@ That is after 1 hour of heating. During regular use, the mesh gets even worse. T
 
 ### Doesn't the bed mesh itself solve this issue?
 
-Yes, but only when the conditions are static. If you heatsoak your machine to the point of thermal equilibrium, bed mesh basically solves this issue. Problem is, on larger machines, reachign thermal equilibrium can take *hours*. Ain't nobody got time for that.
+Yes, but only when the conditions are static. If you heatsoak your machine to the point of thermal equilibrium, bed mesh basically solves this issue. Problem is, on larger machines, reaching thermal equilibrium can take *hours*. Ain't nobody got time for that.
 But if you don't heatsoak for long enough, the bed mesh that you take just before a print gets out of date *fast*.
 
 # The solution
