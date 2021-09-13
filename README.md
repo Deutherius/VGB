@@ -65,7 +65,7 @@ If you had a "TEST" bed mesh in your config, you should see an additional output
 
 Then just upload the new printer.cfg to your printer (rename it to `printer.cfg` of course) and you are done with this part.
 
-Final step is uploading VGB.cfg next to your printer.cfg and adding `[include VGB.cfg]` anywhere in the printer.cfg file.
+Next step is uploading VGB.cfg next to your printer.cfg and adding `[include VGB.cfg]` anywhere in the printer.cfg file. Finally, open VGB.cfg and fill in your temperature details (minimum generated temp, maximum generated temp and step size).
 
 That's it! VGB will start loading temperature-based meshes right after Klipper starts, and then every 10 seconds. You can verify that VGB is working with the QUERY_VGB macro (or just look at your current mesh :). You can also enable or disable the function with "SET_VGB ENABLE=1" or "SET_VGB ENABLE=0". If you disable VGB, the last mesh will stay loaded and no further changes will be made. If you then turn VGB back on, the mesh will instantly change, so beware! This could cause a nozzle strike if you are not careful. Ideally, you never want to turn the feature on or off *during* a print.
 
