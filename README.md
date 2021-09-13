@@ -1,5 +1,5 @@
-# VGB
-VGB - Virtual Gantry Backers. A set of gcode_macro-based functions that counteract the effects of bimetallic expansion of aluminium profile + steel rail gantry in real time
+# VGB - Virtual Gantry Backers
+A set of gcode_macro-based functions that counteract the effects of bimetallic expansion of aluminium profile + steel rail gantry in real time
 
 # Thermal WHAT?
 Read about thermal expansion in ![whoppingpochard's amazing repo](https://github.com/tanaes/whopping_Voron_mods/tree/main/extrusion_backers). In short - metal expands with heat, different metals expand different amounts. Coupled metals expanding differently start bowing (exactly like the bimetallic strip in your electric kettle or clothes iron).
