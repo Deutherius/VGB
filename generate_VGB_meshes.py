@@ -110,16 +110,9 @@ degrees = degrees / multiplier
 newMeshes = list()
 
 for i in degrees:
-    #print(i)
-    #print(COLDtemp)
-    #print(i-COLDtemp)
-    #os.system("pause")
     newMeshFC = COLD + coeffs*(i-COLDtemp)
-    newMeshHC = HOT + coeffs*(i-HOTtemp)
-    if np.mean(newMeshFC-newMeshHC) > 0.00000001:
-        print("FUCK")
     newMeshes.append(newMeshFC)
-    #compare mesh if similar temp as test mesh
+    #compare mesh if similar temp as test mesh exists
     if np.abs(i-TESTtemp)<step/1.5:
         print("Testing! " + str(i) + " and " + str(TESTtemp))
         print("Absolute error:")
