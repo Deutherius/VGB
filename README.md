@@ -70,6 +70,11 @@ Next step is uploading VGB.cfg next to your printer.cfg and adding `[include VGB
 
 That's it! VGB will start loading temperature-based meshes right after Klipper starts, and then every 10 seconds. You can verify that VGB is working with the QUERY_VGB macro (or just look at your current mesh :). You can also enable or disable the function with "SET_VGB ENABLE=1" or "SET_VGB ENABLE=0". If you disable VGB, the last mesh will stay loaded and no further changes will be made. If you then turn VGB back on, the mesh will instantly change, so beware! This could cause a nozzle strike if you are not careful. Ideally, you never want to turn the feature on or off *during* a print.
 
+
+### IMPORTANT - DISABLE FADE
+
+Otherwise all of this black magic will only be applied to the first few millimeters, and the rest of the print will be as curved as your gantry. Just comment out `fade_start:` and `fade_end:` in the `[bed_mesh]` section.
+
 # The end
 
 That's it! However bendy your gantry gets, this function will compensate for it. The usual warnings apply - be careful, have your hand on the E-stop just in case, watch the printer (at least at first)...
