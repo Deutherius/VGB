@@ -1,15 +1,16 @@
 # VGB - Virtual Gantry Backers
-A set of gcode_macro-based functions that counteract the effects of bimetallic expansion of aluminium profile + steel rail gantry in real time
+A set of gcode_macro-based functions that counteract the effects of bimetallic expansion of aluminium profile + steel rail gantry in real time.
+Part of the [Thermal Expansion Compensation Package](https://github.com/Deutherius/TECPac).
 
 # Thermal WHAT?
-Read about thermal expansion in ![whoppingpochard's amazing repo](https://github.com/tanaes/whopping_Voron_mods/tree/main/extrusion_backers). In short - metal expands with heat, different metals expand different amounts. Coupled metals expanding differently start bowing (exactly like the bimetallic strip in your electric kettle or clothes iron).
+Read about thermal expansion in [whoppingpochard's amazing repo](https://github.com/tanaes/whopping_Voron_mods/tree/main/extrusion_backers). In short - metal expands with heat, different metals expand different amounts. Coupled metals expanding differently start bowing (exactly like the bimetallic strip in your electric kettle or clothes iron).
 
 On a Voron 2.4 (mine is 300 mm spec), this manifests as a deeper "bowl" or "taco" shape when you take a bed mesh while the printer is hot, compared to the same printer when cold.
 
 ![hot_mesh](https://user-images.githubusercontent.com/61467766/133098592-8903d003-e97f-465b-8e1f-5cab74fb9ad1.JPG)
 ![cold_mesh](https://user-images.githubusercontent.com/61467766/133098588-81abefcd-0faf-4dbf-8c21-299abb6d7d9c.JPG)
 
-The bed might have some small part in this, but it is an 8 mm thick slab of aluminium - it's not gonna bend *that* much. Proving that is easy - here are bed meshes from one of my measure_thermal_behavior.py (get yours ![here!](https://github.com/alchemyEngine/measure_thermal_behavior) - or look for a newer one, if available) runs:
+The bed might have some small part in this, but it is an 8 mm thick slab of aluminium - it's not gonna bend *that* much. Proving that is easy - here are bed meshes from one of my measure_thermal_behavior.py (get yours [here!](https://github.com/alchemyEngine/measure_thermal_behavior) - or look for a newer one, if available) runs:
 
 ![thermal_quant_Deutherius#3295_2021-08-19_17-20-40 bed_diffmesh](https://user-images.githubusercontent.com/61467766/132133141-80db3704-913d-45c6-a7b7-08e79088ffff.png)
 
@@ -25,7 +26,7 @@ Yes, but only when the conditions are static. If you heatsoak your machine to th
 But if you don't heatsoak for long enough, the bed mesh that you take just before a print gets out of date *fast*.
 
 # The solution
-You can quite easily (and stylishly!) alleviate the gantry bowing effect by getting a set of ![gantry backers](https://github.com/tanaes/whopping_Voron_mods/tree/main/extrusion_backers) for each affected extrusion. Two problems with this solution:
+You can quite easily (and stylishly!) alleviate the gantry bowing effect by getting a set of [gantry backers](https://github.com/tanaes/whopping_Voron_mods/tree/main/extrusion_backers) for each affected extrusion. Two problems with this solution:
 1) It only solves the issue completely on small footprint machines (think max 250 mm^2), on larger machines the issue is only lessened, and
 2) It can be quite gucci ($$), especially if you go for the titanium version ($$$$$$).
 
@@ -38,7 +39,7 @@ Nope! As stated before, you can correct for gantry bowing with the use of a bed 
 ## How does it work?
 
 ### In theory
-Since the bimetallic bowing effect is linear, it is possible to take two bed meshes at different temperatures and calculate a linear thermal expansion coefficient for each point of the mesh (similar to ![frame comp](https://github.com/alchemyEngine/klipper/tree/work-frame-expansion-20210410)/![dumb frame comp](https://github.com/Deutherius/DFC/blob/main/README.md)). With these coefficients and a base mesh, it is possible to extrapolate and apply a mesh for *any* printer temperature at *any* time.
+Since the bimetallic bowing effect is linear, it is possible to take two bed meshes at different temperatures and calculate a linear thermal expansion coefficient for each point of the mesh (similar to [frame comp](https://github.com/alchemyEngine/klipper/tree/work-frame-expansion-20210410)/[dumb frame comp](https://github.com/Deutherius/DFC/blob/main/README.md)). With these coefficients and a base mesh, it is possible to extrapolate and apply a mesh for *any* printer temperature at *any* time.
 
 #### Hang on - this works?
 Yes! Scroll all the way to the bottom for more info.
@@ -72,7 +73,7 @@ That's it! VGB will start loading temperature-based meshes right after Klipper s
 # The end
 
 That's it! However bendy your gantry gets, this function will compensate for it. The usual warnings apply - be careful, have your hand on the E-stop just in case, watch the printer (at least at first)...
-Additionally, I strongly urge you to change your relative reference index from the center of the bed to one of the corners, which will eliminate most temperature-based global Z offset changes, see ![here](https://github.com/Deutherius/Gantry-bowing-induced-Z-offset-correction-through-relative-reference-index).
+Additionally, I strongly urge you to change your relative reference index from the center of the bed to one of the corners, which will eliminate most temperature-based global Z offset changes, see [here](https://github.com/Deutherius/Gantry-bowing-induced-Z-offset-correction-through-relative-reference-index).
 
 
 
