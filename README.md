@@ -50,6 +50,9 @@ Ideally, the bed mesh data that klipper currently uses could be altered on the f
 ![meshes](https://user-images.githubusercontent.com/61467766/133106401-00e3681f-e2ff-4f52-ad80-2a0b5eb251d3.JPG)
 
 ## How to set things up
+
+#####If you intend to change the [relative reference index](https://github.com/Deutherius/Gantry-bowing-induced-Z-offset-correction-through-relative-reference-index), do it first! Otherwise you will have to redo the next steps :)
+
 You need 4 things:
 1) A thermistor that measures the printer's temperature. Needs to be reasonably stable (i.e. no chamber thermistor in the Z chain that gets hot air blown at it *sometimes*) - frame thermistor in one of the vertical extrusions in your frame is perfect for this. (A thermistor measuring the X or Y extrusion temp is even better, but harder to install AND has a much wider range of expected temperatures, which increases the amount of bed meshes you need to generate)
 2) A mesh taken when the printer is cold, either after a short heatsoak (~10 minutes) or at ambient temperature, and the temperature it was taken at (measured at the thermistor you intend to use, see point 1). Name that one "COLDx.x", where "x.x" is the temp, e.g. "COLD27.3".
