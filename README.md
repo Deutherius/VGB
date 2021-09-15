@@ -55,7 +55,7 @@ Ideally, the bed mesh data that klipper currently uses could be altered on the f
 
 You need 4 things:
 1) A thermistor that measures the printer's temperature. Needs to be reasonably stable (i.e. no chamber thermistor in the Z chain that gets hot air blown at it *sometimes*) - frame thermistor in one of the vertical extrusions in your frame is perfect for this. (A thermistor measuring the X or Y extrusion temp is even better, but harder to install AND has a much wider range of expected temperatures, which increases the amount of bed meshes you need to generate)
-2) A mesh taken when the printer is cold, either after a short heatsoak (~10 minutes) or at ambient temperature, and the temperature it was taken at (measured at the thermistor you intend to use, see point 1). Name that one "COLDx.x", where "x.x" is the temp, e.g. "COLD27.3".
+2) A mesh taken when the printer is relatively cold, ideally after a short heatsoak (~10 minutes) from ambient temperature, and the temperature it was taken at (measured at the thermistor you intend to use, see point 1). Name that one "COLDx.x", where "x.x" is the temp, e.g. "COLD27.3".
 3) A mesh taken when the printer is *hot*. Ideally finish a long print (2+ hours), take the print out, let the printer heat up again for at least 10 minutes, then take the mesh. Name that one "HOTx.x", e.g. "HOT36.6".
 4) Additionally, you might want to take a mesh at a different temperature for testing purposes. This should be taken while the printer is heating up (not cooling down!), and should be named "TESTx.x", e.g. "TEST31.2". This step is not necessary for VGB to function, it's just for peace of mind.
 
