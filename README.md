@@ -86,6 +86,10 @@ That's it! VGB will start loading temperature-based meshes right after Klipper s
 
 Otherwise all of this black magic will only be applied to the first few millimeters, and the rest of the print will be as curved as your gantry. Just comment out `fade_start:` and `fade_end:` in the `[bed_mesh]` section.
 
+### EVEN MORE IMPORTANT - SWITCHING BUILDPLATES
+
+This is a custom-fit solution that I have at this point only verified to work **with the entire system as it was during the setup!** If you swap a different buildplate in, I cannot guarantee that it will work!
+
 # The end
 
 That's it! However bendy your gantry gets, this function will compensate for it. The usual warnings apply - be careful, have your hand on the E-stop just in case, watch the printer (at least at first)...
