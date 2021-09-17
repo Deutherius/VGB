@@ -20,6 +20,14 @@ That's the difference between a bed mesh taken at ambient temps vs. bed mesh tak
 
 That is after 1 hour of heating. During regular use, the mesh gets even worse. This is caused by the bimetallic expansion of the gantry - the bed mesh is measuring relative distances of the toolhead from the bed.
 
+### What does this look like in a print?
+
+![20210816_195655](https://user-images.githubusercontent.com/61467766/133771976-0ac395e4-e406-409a-a4e9-af5b65df423e.jpg)
+
+What you see on the left is a part from a 7-hour print job with a first layer time of 22 minutes. The right part was printed alone, with a first layer of 1 minute and 45 seconds. All settings and printer state was the same (cold) for both prints. Both parts were close to the center of the bed, where the gantry bowing is most prominent - but in the part on the right, the bowing happens over multiple layers, masking the effect, while on the left part, it mostly happens over the first few layers (1-3) and causes the subsequent layers to be significantly higher than expected.
+
+**Part of this issue is also caused by the vertical frame expansion, which you can read more on [here](https://github.com/Deutherius/DFC). Both issues compound each other and the image serves as a nice visual aid, which is why I use the same image in both repos.**
+
 ### Doesn't the bed mesh itself solve this issue?
 
 Yes, but only when the conditions are static. If you heatsoak your machine to the point of thermal equilibrium, bed mesh basically solves this issue. Problem is, on larger machines, reaching thermal equilibrium can take *hours*. Ain't nobody got time for that.
