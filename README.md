@@ -75,7 +75,7 @@ This will create a new printer.cfg (the old one will not be overwritten) chock f
 
 If you had a "TEST" bed mesh in your config, you should see an additional output from the script in the console. This output contains a matrix of absolute errors between the extrapolated mesh and the TEST mesh, a mean square error over all points and a maximum absolute error (i.e. the largest value from the matrix). You should see MSE on the order of 2e-5 and a maximum absolute error of roughly 20 microns. If you see much more than that (i.e. more than 50 microns max abs error), something might be wrong, contact me just to be safe.
 
-Then just upload the new printer.cfg to your printer (rename it to `printer.cfg` of course) and you are done with this part.
+Then just upload the new printer.cfg to your printer (rename it to `printer.cfg` of course) and you are done with this part. *Make sure there is one bed mesh named "default" in the config, otherwise Klipper might flip out.*
 
 Next step is uploading VGB.cfg next to your printer.cfg and adding `[include VGB.cfg]` anywhere in the printer.cfg file. Finally, open VGB.cfg and fill in your temperature details (minimum generated temp, maximum generated temp and step size).
 
