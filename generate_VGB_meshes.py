@@ -62,22 +62,22 @@ for lIndex in range(len(lines)):
     oline = lines[lIndex]
     parts = oline.split('#*#', 1)
     if parsingCOLD and lIndex > parsingCOLDindex + 2:
-        if not "tension" in parts[1]:
+        try:
             row = [float(i) for i in parts[1].strip().split(', ')]
             COLD.append(row)
-        else:
+        except:
             parsingCOLD = False
     if parsingHOT and lIndex > parsingHOTindex + 2:
-        if not "tension" in parts[1]:
+        try:
             row = [float(i) for i in parts[1].strip().split(', ')]
             HOT.append(row)
-        else:
+        except:
             parsingHOT = False
     if parsingTEST and lIndex > parsingTESTindex + 2:
-        if not "tension" in parts[1]:
+        try:
             row = [float(i) for i in parts[1].strip().split(', ')]
             TEST.append(row)
-        else:
+        except:
             parsingTEST = False
     if len(parts) > 1:
         command = parts[1].strip()
