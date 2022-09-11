@@ -103,7 +103,7 @@ deltaZ = np.array(HOT) - np.array(COLD)
 coeffs = deltaZ/deltaT
 
 #linearly generate new meshes every <step> °C with some tolerance
-multiplier = pow(10,len(str(TESTtemp))) #hacky way of ensuring consistent numbers -> integers only
+multiplier = pow(10,len(str(HOTtemp))) #hacky way of ensuring consistent numbers -> integers only
 degrees = np.arange(COLDtemp*multiplier-extraTemp*multiplier, HOTtemp*multiplier+extraTemp*multiplier, step*multiplier)
 degrees = degrees / multiplier
 
