@@ -107,6 +107,11 @@ multiplier = pow(10,len(str(TESTtemp))) #hacky way of ensuring consistent number
 degrees = np.arange(COLDtemp*multiplier-extraTemp*multiplier, HOTtemp*multiplier+extraTemp*multiplier, step*multiplier)
 degrees = degrees / multiplier
 
+try:
+    precision = len(str(HOTtemp).split(".")[1])
+except:
+    precision = 0
+
 newMeshes = list()
 
 for i in degrees:
@@ -129,7 +134,7 @@ with open(destFile, "w") as f:
     f.write("#*#\n")
     #now add the new meshes
     for index, mesh in enumerate(newMeshes):
-        f.write("#*# [bed_mesh " + str(degrees[index]) + "]\n")
+        f.write("#*# [bed_mesh " + str(round(degrees[index],precision)) + "]\n")
         #write preamble
         for line in preamble:
             f.write(line)
