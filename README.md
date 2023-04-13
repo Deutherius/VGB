@@ -36,7 +36,7 @@ But if you don't heatsoak for long enough, the bed mesh that you take just befor
 # The solution
 You can quite easily (and stylishly!) alleviate the gantry bowing effect by getting a set of [gantry backers](https://github.com/tanaes/whopping_Voron_mods/tree/main/extrusion_backers) for each affected extrusion. Two problems with this solution:
 1) It only solves the issue completely on small footprint machines (think max 250 mm^2), on larger machines the issue is only lessened, and
-2) It can be quite gucci ($$), especially if you go for the titanium version ($$$$$$).
+2) It can be quite gucci (\$\$\$), especially if you go for the titanium version (\$\$\$\$\$\$).
 
 ### So are we screwed?
 
