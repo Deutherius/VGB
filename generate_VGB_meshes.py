@@ -29,8 +29,7 @@ parsingPreamble = True
 preamble = list()
 COLD = list()
 HOT = list()
-TEST = list()
-TESTtemp = 999
+TESTdict = dict()
 postamble = list()
 
 #get the structure of a bed_mesh section without the point values
@@ -76,9 +75,10 @@ for lIndex in range(len(lines)):
     if parsingTEST and lIndex > parsingTESTindex + 2:
         try:
             row = [float(i) for i in parts[1].strip().split(', ')]
-            TEST.append(row)
+            TESTmesh.append(row)
         except:
             parsingTEST = False
+            TESTdict[TESTtemp] = TESTmesh
     if len(parts) > 1:
         command = parts[1].strip()
         stringMatchCOLD = re.search ('bed_mesh COLD', command)
@@ -94,6 +94,7 @@ for lIndex in range(len(lines)):
             HOTtemp = float(command.split("[bed_mesh HOT")[1].replace("]",""))
         elif stringMatchTEST:
             parsingTEST = True
+            TESTmesh = list()
             parsingTESTindex = lIndex
             TESTtemp = float(command.split("[bed_mesh TEST")[1].replace("]",""))
 
@@ -118,14 +119,15 @@ for i in degrees:
     newMeshFC = COLD + coeffs*(i-COLDtemp)
     newMeshes.append(newMeshFC)
     #compare mesh if similar temp as test mesh exists
-    if np.abs(i-TESTtemp)<step/1.5:
-        print("Testing! " + str(i) + " and " + str(TESTtemp))
-        print("Absolute error:")
-        error = np.array(TEST) - newMeshFC;
-        print(error)
-        MSE = np.mean(np.power(error,2))
-        print("MSE: " + str(MSE))
-        print("Maximum absolute error is " + str(np.round(np.max(np.abs(error)),5)) + " mm (" + str(np.round(np.max(np.abs(error))*1000,2)) + " microns)")
+    for TESTtemp, TESTmesh in TESTdict.items():
+        if np.abs(i-TESTtemp)<step/1.5:
+            print("Testing! " + str(i) + " and " + str(TESTtemp))
+            print("Absolute error:")
+            error = np.array(TESTmesh) - newMeshFC;
+            print(error)
+            MSE = np.mean(np.power(error,2))
+            print("MSE: " + str(MSE))
+            print("Maximum absolute error is " + str(np.round(np.max(np.abs(error)),5)) + " mm (" + str(np.round(np.max(np.abs(error))*1000,2)) + " microns)")
 
 #add new meshes to the new printer.cfg
 with open(destFile, "w") as f:
