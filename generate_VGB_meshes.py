@@ -32,13 +32,15 @@ HOT = list()
 TESTdict = dict()
 postamble = list()
 
+pointsLineRegex = r"^\s*[-+]?\d*\.?\d+(?:\s*,\s*[-+]?\d*\.?\d+){2,}$"
+
 #get the structure of a bed_mesh section without the point values
 for lIndex in range(len(lines)):
     oline = lines[lIndex]
     parts = oline.split('#*#', 1)
     if len(parts) > 1:
         if parsing:
-            if "\t" in parts[1]:
+            if re.match(pointsLineRegex, parts[1]):
                 parsingPreamble = False
                 continue
             if parsingPreamble:
